@@ -7,6 +7,8 @@ Make a rabbit with two fingers, and it steps off the screen and into the story.
 
 **Play it:** [borrowedshade.com](https://www.borrowedshade.com/) (open it in the Quest Browser)
 
+**Watch it:** [the demo video on YouTube](https://www.youtube.com/watch?v=1twNoS-0xJ0)
+
 Built for the Meta VR Start Developer Competition 2026 (Entertainment track).
 
 ## The idea
