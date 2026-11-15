@@ -5,6 +5,8 @@
 A pop-up storybook for Meta Quest that you play with nothing but your hands.
 Make a rabbit with two fingers, and it steps off the screen and into the story.
 
+**Play it:** [borrowed-shade.vercel.app](https://borrowed-shade.vercel.app/) (open it in the Quest Browser)
+
 Built for the Meta VR Start Developer Competition 2026 (Entertainment track).
 
 ## The idea
@@ -43,7 +45,7 @@ There are three books on the shelf:
 
 You need a Meta Quest with hand tracking, and a table to sit at.
 
-1. Open the game in the Quest Browser and enter VR.
+1. Open [borrowed-shade.vercel.app](https://borrowed-shade.vercel.app/) in the Quest Browser and enter VR.
 2. Put the controllers down. The book appears on the table in front of you.
 3. Touch the cover to open it.
 
