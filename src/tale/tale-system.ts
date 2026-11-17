@@ -30,6 +30,7 @@ import {
 import type { AudioEngine } from '../audio/engine.js';
 import { classify, HandReader, type HandReading, type Side } from '../lab/hands.js';
 import { stage } from '../world/stage.js';
+import { TableFinder } from '../world/table-finder.js';
 import { Actor, person, popEase, puppet } from './actors.js';
 import * as A from './art.js';
 import * as B from './art2.js';
@@ -280,6 +281,11 @@ export class TaleSystem extends createSystem({}) implements Director {
   comfort: Comfort = loadComfort();
   /** where the tale root glides to (book distance and height) */
   private rootTarget = new Vector3();
+  /** mixed reality: the real table the headset found under the book (the desk's lift to reach it, m) */
+  private tableFinder = new TableFinder();
+  private tableLift = 0;
+  private tableFound = false;
+  private tableCheckIn = 0;
   /** "Bring the book to me": wait until the reader sits back and is still */
   private moveWait: { t: number; still: number; last: Vector3 } | null = null;
   private moveLine = '';
@@ -3632,12 +3638,14 @@ export class TaleSystem extends createSystem({}) implements Director {
       this.advice.style = c.captions;
       this.advice.refresh();
     }
-    this.rootTarget.set(0, c.bookLift, -c.bookPush);
+    // a real table wins over the Height setting: the book rests on it
+    this.rootTarget.set(0, this.tableFound ? this.tableLift : c.bookLift, -c.bookPush);
     if (this.theatre) this.setRoom(this.isAR);
   }
 
   /** the book glides to its distance; "Bring the book to me" waits for the reader to settle */
   private updatePlacement(dt: number): void {
+    this.updateTable(dt);
     this.root.position.lerp(this.rootTarget, 1 - Math.exp(-dt * 6));
     const m = this.moveWait;
     if (!m) return;
@@ -3653,6 +3661,34 @@ export class TaleSystem extends createSystem({}) implements Director {
       this.moveLine = '';
       this.music.rustle(0.5);
     }
+  }
+
+  /**
+   * ON YOUR REAL TABLE (mixed reality, the room shown). Twice a second, look for the table the headset
+   * knows under the book and set the desk to its height, so the book rests on the real wood. Nothing
+   * found (VR, Room: Hidden, no Space Setup, plane detection declined): the desk stays where it was.
+   */
+  private updateTable(dt: number): void {
+    this.tableCheckIn -= dt;
+    if (this.tableCheckIn > 0) return;
+    this.tableCheckIn = 0.5;
+    let lift = 0;
+    let found = false;
+    if (this.isAR && this.roomVisible) {
+      const spot = this.book.root.getWorldPosition(this.tmpA);
+      const y = this.tableFinder.find(this.renderer.xr, this.head, spot);
+      if (y !== null) {
+        lift = Math.min(0.15, Math.max(-0.3, y - (stage.group.position.y + TABLE_Y)));
+        found = true;
+      }
+    }
+    const changed = found !== this.tableFound;
+    if (changed) this.log(found ? `table:${lift.toFixed(3)}` : 'table:none');
+    this.tableFound = found;
+    // a table stays put: small wobbles in the plane's height are ignored
+    if (!changed && Math.abs(lift - this.tableLift) < 0.008) return;
+    this.tableLift = lift;
+    this.rootTarget.set(0, found ? lift : this.comfort.bookLift, -this.comfort.bookPush);
   }
 
   /** Start the current page again (characters made on earlier pages stay). */
@@ -3827,6 +3863,7 @@ export class TaleSystem extends createSystem({}) implements Director {
       endCard: this.endCard.isOpen,
       room: this.roomVisible,
       ar: this.isAR,
+      table: this.tableFound ? +this.tableLift.toFixed(3) : null,
       hands: (['left', 'right'] as const).map((s) => (this.hands[s] ? { side: s, tracked: this.hands[s]!.tracked, pose: classify(this.hands[s]!) } : null)),
       book: v(this.book.root),
       flame: this.book.lantern.flame(new Vector3()).toArray().map((n) => +n.toFixed(3)),

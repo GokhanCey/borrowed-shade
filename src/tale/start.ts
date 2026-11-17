@@ -55,7 +55,7 @@ export function showTaleStart(world: World, onBegin: () => void): void {
   const xrBtn = el.querySelector('[data-act="xr"]') as HTMLButtonElement;
   let arOk = false;
   xrBtn.addEventListener('click', () => {
-    world.launchXR(arOk ? { sessionMode: SessionMode.ImmersiveAR, features: { handTracking: true } } : { sessionMode: SessionMode.ImmersiveVR, features: { handTracking: true } });
+    world.launchXR(arOk ? { sessionMode: SessionMode.ImmersiveAR, features: { handTracking: true, planeDetection: { required: false } } } : { sessionMode: SessionMode.ImmersiveVR, features: { handTracking: true } });
     hide();
   });
   el.querySelector('[data-act="look"]')!.addEventListener('click', hide);
