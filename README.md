@@ -21,8 +21,9 @@ That always felt a bit unfair. So this is a book where the shadows stay.
 
 ## What's inside
 
-A paper book opens on your real table. A small lantern lights a paper screen, and
-your hands throw real shadows on it. No controllers at any point.
+A paper book opens on the table in front of you, in a dark little theatre or, if you
+like, on your real table at home. A small lantern lights a paper screen, and your
+hands throw real shadows on it. No controllers at any point.
 
 There are three books on the shelf:
 
@@ -47,7 +48,7 @@ There are three books on the shelf:
 
 You need a Meta Quest with hand tracking, and a table to sit at.
 
-1. Open [borrowedshade.com](https://www.borrowedshade.com/) in the Quest Browser and enter VR.
+1. Open [borrowedshade.com](https://www.borrowedshade.com/) in the Quest Browser and tap Begin.
 2. Put the controllers down. The book appears on the table in front of you.
 3. Touch the cover to open it.
 
@@ -57,6 +58,9 @@ On the desk:
 - **Lantern** (front right): hold a flat hand over it to pause. Settings live there too.
 - **Shelf** (back left): touch a spine to pick another book.
 - **Mobile** (back right): it earns a new piece each time you finish something. Poke it.
+- **Your real room**: it starts in a dark theatre. In the lantern menu, set Room to Auto
+  and your real room shows through. If your table is marked in the Quest's Space Setup,
+  the book settles right onto it.
 
 When the story asks for a shape, hold your hand in the lantern's light so its
 shadow fills the outline on the screen. The wax seal shows how close you are.
