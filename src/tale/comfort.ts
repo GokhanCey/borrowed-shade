@@ -33,7 +33,8 @@ export const DEFAULT_COMFORT: Comfort = {
   pace: 'usual',
   bookPush: 0.22,
   bookLift: 0,
-  room: 'auto',
+  // the theatre first: the room (and the real table) is one touch away in the lantern menu
+  room: 'hidden',
 };
 
 const clamp = (v: unknown, lo: number, hi: number, d: number) => (typeof v === 'number' && Number.isFinite(v) ? Math.min(hi, Math.max(lo, v)) : d);
